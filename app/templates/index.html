@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Quizzes - Online Quiz Platform{% endblock %}
+{% block content %}
+<h1>Available Quizzes</h1>
+{% if quizzes %}
+<table class="quiz-table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Attempts</th>
+            <th>Average Score</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for quiz in quizzes %}
+        <tr>
+            <td>{{ quiz.title }}</td>
+            <td>{{ quiz.attempt_count }}</td>
+            <td>
+                {% if quiz.avg_percentage is not none %}
+                    {{ '%.1f' % quiz.avg_percentage }}%
+                {% else %}
+                    No attempts yet
+                {% endif %}
+            </td>
+            <td><a href="{{ url_for('main.take_quiz', quiz_id=quiz.id) }}">Take quiz</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No quizzes yet. <a href="{{ url_for('main.new_quiz') }}">Create one</a>.</p>
+{% endif %}
+{% endblock %}

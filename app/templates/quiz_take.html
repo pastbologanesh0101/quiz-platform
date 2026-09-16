@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{ quiz.title }} - Online Quiz Platform{% endblock %}
+{% block content %}
+<h1>{{ quiz.title }}</h1>
+
+{% if error %}
+<p class="errors">{{ error }}</p>
+{% endif %}
+
+<form method="post">
+    {% for q in questions %}
+    <fieldset class="question-block">
+        <legend>{{ loop.index }}. {{ q.text }}</legend>
+        <label class="choice"><input type="radio" name="answer_{{ q.id }}" value="0" required> {{ q.choice_a }}</label>
+        <label class="choice"><input type="radio" name="answer_{{ q.id }}" value="1"> {{ q.choice_b }}</label>
+        <label class="choice"><input type="radio" name="answer_{{ q.id }}" value="2"> {{ q.choice_c }}</label>
+        <label class="choice"><input type="radio" name="answer_{{ q.id }}" value="3"> {{ q.choice_d }}</label>
+    </fieldset>
+    {% endfor %}
+    <button type="submit">Submit Answers</button>
+</form>
+{% endblock %}

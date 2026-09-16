@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Results - {{ quiz.title }}{% endblock %}
+{% block content %}
+<h1>Results: {{ quiz.title }}</h1>
+<p class="score-summary">Score: {{ result.score }} / {{ result.total }} ({{ '%.1f' % result.percentage }}%)</p>
+
+<ol class="result-list">
+{% for pq in result.per_question %}
+    <li class="{{ 'correct' if pq.is_correct else 'incorrect' }}">
+        <p class="question-text">{{ pq.text }}</p>
+        <p>
+            Your answer:
+            {% if pq.selected_index is not none %}
+                {{ pq.choices[pq.selected_index] }}
+            {% else %}
+                No answer
+            {% endif %}
+            &mdash; {{ 'Correct' if pq.is_correct else 'Incorrect' }}
+        </p>
+        {% if not pq.is_correct %}
+        <p>Correct answer: {{ pq.choices[pq.correct_index] }}</p>
+        {% endif %}
+    </li>
+{% endfor %}
+</ol>
+
+<a href="{{ url_for('main.index') }}">Back to quizzes</a>
+{% endblock %}

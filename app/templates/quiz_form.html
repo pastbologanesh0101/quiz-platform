@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}New Quiz - Online Quiz Platform{% endblock %}
+{% block content %}
+<h1>Create a New Quiz</h1>
+
+{% if errors %}
+<ul class="errors">
+    {% for e in errors %}<li>{{ e }}</li>{% endfor %}
+</ul>
+{% endif %}
+
+<form method="post" id="quiz-form">
+    <label class="field">
+        Quiz title
+        <input type="text" name="title" required>
+    </label>
+
+    <div id="questions">
+        <fieldset class="question-block">
+            <legend>Question 1</legend>
+            <label class="field">
+                Question text
+                <input type="text" name="q_text" required>
+            </label>
+            <label class="field">Choice A <input type="text" name="choice_0" required></label>
+            <label class="field">Choice B <input type="text" name="choice_1" required></label>
+            <label class="field">Choice C <input type="text" name="choice_2" required></label>
+            <label class="field">Choice D <input type="text" name="choice_3" required></label>
+            <label class="field">
+                Correct choice
+                <select name="correct">
+                    <option value="0">A</option>
+                    <option value="1">B</option>
+                    <option value="2">C</option>
+                    <option value="3">D</option>
+                </select>
+            </label>
+        </fieldset>
+    </div>
+
+    <div class="form-actions">
+        <button type="button" id="add-question">+ Add another question</button>
+        <button type="submit">Create Quiz</button>
+    </div>
+</form>
+
+<script>
+document.getElementById('add-question').addEventListener('click', function () {
+    var container = document.getElementById('questions');
+    var blocks = container.querySelectorAll('.question-block');
+    var clone = blocks[0].cloneNode(true);
+    clone.querySelectorAll('input').forEach(function (input) { input.value = ''; });
+    clone.querySelector('select').selectedIndex = 0;
+    clone.querySelector('legend').textContent = 'Question ' + (blocks.length + 1);
+    container.appendChild(clone);
+});
+</script>
+{% endblock %}
